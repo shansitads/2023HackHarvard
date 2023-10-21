@@ -1,0 +1,42 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: white;
+  
+}
+
+.container {
+  text-align: center;
+  background-color: white;
+}
+
+.smiley-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.custom-font {
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px; /*how are you feeling today font*/ 
+  color: #ec806c; 
+}
+
+.smiley {
+  width: 50px; /* Set the width of the smiley images */
+  height: 50px; /* Set the height of the smiley images */
+  margin: 5px; /* Add some margin around the smiley images */
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-size: 2rem;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.smiley.selected {
+  transform: scale(1.2);
+}
+
