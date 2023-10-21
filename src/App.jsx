@@ -12,8 +12,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <LoginAndSignup /> */}
-      <SleepingScaleGame />
+      <LoginAndSignup />
     </BrowserRouter>
   );
 }
