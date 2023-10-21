@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { faker } from '@faker-js/faker';
 
 function ImageIdentificationGame() {
     const originalImages = useRef([]);
     const displayedImages = useRef([]);
     const newImage = useRef('');
     const isCorrect = useRef(null);
+    const gamePhase = useRef(0);
     const score = useRef(0);
     const rounds = useRef(0);
 
@@ -14,11 +16,12 @@ function ImageIdentificationGame() {
     // load the initial 4 images
     useEffect(() => {
         const fetchInitialImages = async () => {
-            const imagePromises = Array(4).fill(null).map(() => fetch('https://picsum.photos/200'));
+            const imagePromises = Array(4).fill(null).map(() => fetch(faker.image.urlLoremFlickr({ category: 'animals', height: 200,  width: 200 })));
             const imageResponses = await Promise.all(imagePromises);
             const imageUrls = imageResponses.map(imgResp => imgResp.url);
             originalImages.current = imageUrls;
             displayedImages.current = imageUrls;
+            gamePhase.current = 0;
             setToggleRender(prev => !prev); // Force a re-render
         };
         fetchInitialImages();
@@ -27,21 +30,20 @@ function ImageIdentificationGame() {
     // load the new image and display it shuffled in with 3 of the original images
     useEffect(() => {
         const timer = setTimeout(async () => {
-            const newImageResponse = await fetch('https://picsum.photos/200');
+            const newImageResponse = await fetch(faker.image.urlLoremFlickr({ category: 'animals', height: 200,  width: 200 }));
             const newImageUrl = newImageResponse.url;
             newImage.current = newImageUrl;
     
-            const imagesToDisplay = [
-                ...originalImages.current.slice(0, 3),
-                newImageUrl
-            ];
-            displayedImages.current = imagesToDisplay.sort(() => Math.random() - 0.5);
+            const randomOriginalImage = originalImages.current[Math.floor(Math.random() * originalImages.current.length)];
+
+            displayedImages.current = [randomOriginalImage, newImageUrl].sort(() => Math.random() - 0.5);
+            gamePhase.current = 1;
             setToggleRender(prev => !prev); // Force a re-render
         }, 10000);
     
         return () => clearTimeout(timer);
     }, []);
-    
+
     const handleImageClick = (imgSrc) => {
         // If an image has already been selected, exit early.
         if (isCorrect.current !== null) return;
@@ -60,7 +62,8 @@ function ImageIdentificationGame() {
 
     return (
         <div className="App">
-            <h1>Spot the New Image</h1>
+            {gamePhase.current === 0 && <h1>Go through these images</h1>}
+            {gamePhase.current === 1 && <h1>Which is the new image</h1>}
             <div className="images-container">
                 {displayedImages.current.map((imgSrc, idx) => (
                     <img
