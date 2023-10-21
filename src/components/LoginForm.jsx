@@ -1,25 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import firebaseConfig from "../backend/firebase.jsx";
+import '../App.css';
+import { signInWithEmailAndPassword } from "@firebase/auth";
 
 function LoginForm({ toggle }) {
   const [form, setForm] = useState({});
+  const validLogin = useRef(null);
 
-  const updateForm = (updates) => {
-    const copy = { ...form };
-    for (const [key, value] of Object.entries(updates)) {
-      set(copy, key, value);
-    }
-    setForm(copy);
+  const [rerender, setRerender] = useState(false);
+
+  const updateForm = (event) => {
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value,
+    })
+    console.log(form);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(form);
-    toggle();
+    console.log(form.email + " " + form.password);
+    
+    signInWithEmailAndPassword(firebaseConfig.auth, form.email, form.password).then((cred)=> {
+      console.log(cred.user + " logged in");
+      validLogin.current = true;
+      setRerender(prev => !prev);
+      toggle();
+    })
+    .catch((err)=> {
+      console.log("failed to log in");
+      validLogin.current = false;
+      setRerender(prev => !prev);
+    })  
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="username" onChange={updateForm} placeholder="Username" />
+    <div>
+      <form onSubmit={handleSubmit}>
+      <input name="email" onChange={updateForm} placeholder="Email" />
       <input
         name="password"
         onChange={updateForm}
@@ -27,7 +45,11 @@ function LoginForm({ toggle }) {
         type="password"
       />
       <button type="submit">Log In</button>
-    </form>
+     </form>
+    
+    {validLogin.current === false && <h4 className = "validLogin-textBox">Failed to login, please try again.</h4>}
+
+    </div>
   );
 }
 
