@@ -1,27 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import '../App.css'
+
+import firebaseConfig from "../backend/firebase.jsx";
 
 function SignUpForm({ toggle }) {
   const [form, setForm] = useState({});
+  const validPassword = useRef(null); 
+
+  // //dummy state to rerender invalid password message
+  const [rerender, setRerender] = useState(false);
 
   const updateForm = (event) => {
     setForm({
       ...form,
       [event.target.name]: event.target.value,
     });
+    console.log(form);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    
+    if(form.password !== form.confirmPassword) {
+      validPassword.current = false;
+      setRerender(prev => !prev);
+      console.log(validPassword);
+      return;
+    }
+
+    validPassword.current = true;
+    setRerender(prev => !prev);
+    firebaseConfig.createUser(form.email, form.password, form.careTakerName, form.careTakerEmail);
     console.log(form);
+
     toggle();
   };
 
-  // addEventListener(() =)
-
   return (
+    
     <div className="popup">
       <form onSubmit={handleSubmit}>
-        <input name="username" onChange={updateForm} placeholder="Username" />
+        <input name="name" onChange={updateForm} placeholder="Name" />
         <input
           name="email"
           onChange={updateForm}
@@ -41,19 +61,26 @@ function SignUpForm({ toggle }) {
           type="password"
         />
         <input
-          name="Caretaker Name"
+          name="careTakerName"
           onChange={updateForm}
           placeholder="Caretaker Name"
           type="text"
         />
         <input
-          name="Caretaker email"
+          name="careTakerEmail"
           onChange={updateForm}
           placeholder="Caretaker Email"
           type="email"
         />
-        <button type="submit">Sign Up</button>
+        <div className = "grid-container">
+          <button type="submit">Sign Up</button>
+          <button onClick={toggle}>Login</button>
+        </div>
       </form>
+      <div>
+        {validPassword.current === false && <h3 className = "validLogin-textBox">Passwords don't match</h3>}
+      </div>
+      
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from 'firebase/auth';
 import {
     getFirestore, setDoc, doc
 } from 'firebase/firestore';
@@ -32,20 +31,12 @@ function createUser(email, password, careTakerName, careTakerEmail) {
   createUserWithEmailAndPassword(auth, email, password).then((cred)=> {
     setDoc(doc(db, 'users', cred.user.uid), {
       careTakerName: careTakerName,
-      careTakerEmail: careTakerEmail
+      careTakerEmail: careTakerEmail,
     })
+    console.log('successfully created user: ' + email)
   });
 }
 
-function login(email, password) {
-  signInWithEmailAndPassword(auth, email, password).then((cred)=> {
-    //reset the text fields here.
-  })
-  .catch((err)=> {
-    //Need to add frontend information to notify user login fail
-    console.log("login failed");
-  })
-}
 
 function logout() {
   signOut(auth).then(()=> {
@@ -56,4 +47,4 @@ function logout() {
   })
 }
 
-export default {app, db, createUser, login, logout};
+export default { auth, app, db, createUser, logout };
