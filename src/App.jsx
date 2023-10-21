@@ -5,6 +5,9 @@ import './App.css'
 import LoginForm from './components/LoginForm'
 import SignUpForm from './components/SignUpForm'
 
+import { BrowserRouter } from 'react-router-dom';
+
+
 function App() {
 
   const [seen, setSeen] = useState(false);
@@ -21,33 +24,35 @@ function App() {
 
   return (
     <>
-      <div className="App">
-        <div className='popup'>
-          <button
-            onClick={() => {
-              togglePop();
-              switchFormType("login");
-            }}
-          >
-            Login
-          </button>
-          <button
-            onClick={() => {
-              togglePop();
-              switchFormType("signup");
-            }}
-          >
-            Sign Up
-          </button>
-          {seen ? (
-            formType === "login" ? (
-              <LoginForm toggle={togglePop} />
-            ) : (
-              <SignUpForm toggle={togglePop} />
-            )
-          ) : null}
+      <BrowserRouter>
+        <div className="App">
+          <div className="popup">
+            <button
+              onClick={() => {
+                togglePop();
+                switchFormType("login");
+              }}
+            >
+              Login
+            </button>
+            <button
+              onClick={() => {
+                togglePop();
+                switchFormType("signup");
+              }}
+            >
+              Sign Up
+            </button>
+            {seen ? (
+              formType === "login" ? (
+                <LoginForm toggle={togglePop} />
+              ) : (
+                <SignUpForm toggle={togglePop} />
+              )
+            ) : null}
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     </>
   );
 }
