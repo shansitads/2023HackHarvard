@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 function ImageIdentificationGame() {
     const originalImages = useRef([]);
     const displayedImages = useRef([]);
-    const newImage = useRef('');
+    const isImageNew = useRef(null);
     const isCorrect = useRef(null);
     const gamePhase = useRef(0);
     const score = useRef(0);
@@ -27,16 +27,19 @@ function ImageIdentificationGame() {
         fetchInitialImages();
     }, []);
     
-    // load the new image and display it shuffled in with 3 of the original images
+    // randomly select whether to display a new image or an old image
     useEffect(() => {
         const timer = setTimeout(async () => {
-            const newImageResponse = await fetch(faker.image.urlLoremFlickr({ category: 'animals', height: 200,  width: 200 }));
-            const newImageUrl = newImageResponse.url;
-            newImage.current = newImageUrl;
-    
-            const randomOriginalImage = originalImages.current[Math.floor(Math.random() * originalImages.current.length)];
-
-            displayedImages.current = [randomOriginalImage, newImageUrl].sort(() => Math.random() - 0.5);
+            if (Math.random() > 0.5) { // load a new image
+                const newImageResponse = await fetch(faker.image.urlLoremFlickr({ category: 'animals', height: 200,  width: 200 }));
+                const imageUrl = newImageResponse.url;
+                isImageNew.current = true;
+                displayedImages.current = [imageUrl];
+            } else { // use an old image
+                const imageUrl = originalImages.current[Math.floor(Math.random() * originalImages.current.length)];
+                isImageNew.current = false;
+                displayedImages.current = [imageUrl];
+            }
             gamePhase.current = 1;
             setToggleRender(prev => !prev); // Force a re-render
         }, 10000);
@@ -44,18 +47,17 @@ function ImageIdentificationGame() {
         return () => clearTimeout(timer);
     }, []);
 
-    const handleImageClick = (imgSrc) => {
+    const handleButtonClick = (answer) => {
         // If an image has already been selected, exit early.
         if (isCorrect.current !== null) return;
-    
-        if (imgSrc === newImage.current) {
+
+        if ((answer === 'new' && isImageNew.current) || (answer === 'old' && !isImageNew.current)) {
             isCorrect.current = true;
         } else {
             isCorrect.current = false;
         }
         score.current += 1;
         rounds.current += 1;
-        console.log(rounds.current);
         setToggleRender(prev => !prev); // Force a re-render
     };
     
@@ -63,18 +65,23 @@ function ImageIdentificationGame() {
     return (
         <div className="App">
             {gamePhase.current === 0 && <h1>Go through these images</h1>}
-            {gamePhase.current === 1 && <h1>Which is the new image</h1>}
+            {gamePhase.current === 1 && <h1>Is this image new or old?</h1>}
             <div className="images-container">
                 {displayedImages.current.map((imgSrc, idx) => (
                     <img
                         key={idx}
                         src={imgSrc}
-                        alt="Random from Picsum"
-                        onClick={() => handleImageClick(imgSrc)}
+                        alt="Random animal images"
                         style={{ cursor: 'pointer' }}
                     />
                 ))}
             </div>
+            {gamePhase.current === 1 && (
+                <div>
+                    <button onClick={() => handleButtonClick('new')}>New</button>
+                    <button onClick={() => handleButtonClick('old')}>Old</button>
+                </div>
+            )}
             {isCorrect.current === true && <p style={{ color: 'green' }}>Correct!</p>}
             {isCorrect.current === false && <p style={{ color: 'red' }}>Incorrect!</p>}
         </div>
