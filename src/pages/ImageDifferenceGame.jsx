@@ -53,16 +53,15 @@ function ImageDifferenceGame({ dataRef }) {
         setGamePhase('result');
         if (selectedImage === shownImage) {
             setIsCorrect(true);
+            setScore(score + 1);
         } else {
             setIsCorrect(false);
         }
+        setAttempt(attempt + 1);
     };
 
     const handleNextClick = () => {
-        if (isCorrect) {
-            setScore(score + 1);
-        }
-        setAttempt(attempt + 1);
+        setIsCorrect(null);
     };
 
     return (
