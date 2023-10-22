@@ -8,7 +8,53 @@ import { doc, collection, query, where, getDocs } from 'firebase/firestore';
 function DownloadReport() {
 
     const userData = useRef([]);
-    const chartRef = useRef([]);
+    const moodRef = useRef([]);
+    const sleepyRef = useRef([]);
+    const imageDifferenceRef = useRef([]);
+    const containerRef = useRef([]);
+
+    const charts = [
+        {
+          category: 'Mood',
+          ref: moodRef
+        },
+        { 
+          category: 'Sleepy',
+          ref: sleepyRef
+        },
+        {
+            category: 'ImageDifference',
+            ref: imageDifferenceRef
+        }
+      ];
+
+      function getCharts() {
+        charts.forEach(async chart => {
+
+            // Fetch data
+            await fetchData(chart.category);
+          
+            // const ctx = chart.ref.current.getContext('2d');
+            
+            new Chart(chart.ref.current, {
+                type: 'line', // Specify the chart type
+                data: {
+                  labels: userData.current.map((row) => row.timestamp),
+                  datasets: [
+                    {
+                      label: chart.category,
+                      data: userData.current.map((row) => row.val),
+                    },
+                  ],
+                }
+            })
+
+            containerRef.current.appendChild(chart.ref.current);
+        });
+      }
+
+      
+      
 
     const fetchData = async (category) => {
         try {
@@ -28,37 +74,58 @@ function DownloadReport() {
             }
     };
 
-    async function createChart (category) {
-        await fetchData("Mood");
+    // async function createChart (category, ref) {
+    //     await fetchData("Mood");
 
-        new Chart(chartRef.current, {
-            type: 'line', // Specify the chart type
-            data: {
-              labels: userData.current.map((row) => row.timestamp),
-              datasets: [
-                {
-                  label: category,
-                  data: userData.current.map((row) => row.val),
-                },
-              ],
-            }
-        })
-    }
+    //     new Chart(ref.current, {
+    //         type: 'line', // Specify the chart type
+    //         data: {
+    //           labels: userData.current.map((row) => row.timestamp),
+    //           datasets: [
+    //             {
+    //               label: category,
+    //               data: userData.current.map((row) => row.val),
+    //             },
+    //           ],
+    //         }
+    //     })
+    // }
     
-    const downloadReport = () => {
-        html2canvas(chartRef.current).then(canvas => {
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const imgData = canvas.toDataURL('image/png');
-            pdf.addImage(imgData, 'PNG', 10, 10);
-            pdf.save('Report.pdf');
+    // const downloadReport = (ref) => {
+    //     html2canvas(ref.current).then(canvas => {
+    //         const pdf = new jsPDF('p', 'mm', 'a4');
+    //         const imgData = canvas.toDataURL('image/png');
+    //         pdf.addImage(imgData, 'PNG', 10, 10);
+    //         pdf.save('Report.pdf');
+    //     });
+    // };
+
+    function downloadReport() {
+
+        getCharts();
+    
+        html2canvas(containerRef.current).then(canvas => {
+          
+          const pdf = new jsPDF('p', 'mm', 'a4'); 
+    
+          const imgData = canvas.toDataURL('image/png');
+          pdf.addImage(imgData, 'PNG', 10, 10);  
+          pdf.save('Report.pdf');
+    
         });
-    };
-    
+    }
+
+
     return (
         <div>
-            <canvas ref={chartRef}/>
-            <button onClick={() => createChart("Mood")}>Create Chart</button>
-            <button onClick={downloadReport}>Download Chart</button>
+            <div ref={containerRef}>
+                <canvas ref={moodRef}/>
+                <canvas ref={sleepyRef}/>
+                <canvas ref={imageDifferenceRef}/>
+                {/* <button onClick={getCharts}>Create Chart</button> */}
+                
+            </div>
+        <button onClick={downloadReport}>Download Chart</button>
         </div>
     );
 };
