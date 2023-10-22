@@ -92,7 +92,7 @@ function SignUpForm({ toggle, dataRef }) {
         />
         <div className = "grid-container">
           <button onClick={toggle}>Login</button>
-          <button type="submit">Sign Up</button>
+          <button className="loginButton" type="submit">Sign Up</button>
         </div>
       </form>
       <div>

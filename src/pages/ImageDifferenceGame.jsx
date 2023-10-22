@@ -99,9 +99,9 @@ function ImageDifferenceGame({ dataRef }) {
         {gamePhase === "result" && (
           <>
             {isCorrect ? (
-              <h2 style={{ color: "green" }}>Correct!</h2>
+              <h2 style={{ color: "navy" }}>Score: {score+1}</h2>
             ) : (
-              <h2 style={{ color: "red" }}>Incorrect!</h2>
+              <h2 style={{ color: "navy" }}>Score: {score}</h2>
             )}
             {attempt < maxAttempts && (
               <button onClick={handleNextClick}>Next</button>

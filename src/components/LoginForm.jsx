@@ -56,7 +56,7 @@ function LoginForm({ toggle, dataRef, toggleLogIn }) {
         placeholder="Password"
         type="password"
       />
-      <button type="submit">Log In</button>
+      <button className="loginButton" type="submit">Log In</button>
      </form>
     
     {validLogin.current === false && <h4 className = "validLogin-textBox">Failed to login, please try again.</h4>}

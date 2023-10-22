@@ -37,7 +37,7 @@ function App() {
         <LoginAndSignup dataRef={dataRef} toggleLogIn={toggleLogIn} />
       ) : (
         <>
-          <DownloadReport />
+          
           {mood === false ? (
             <MoodTracker dataRef={dataRef} toggleMood={toggleMood} />
           ) : sleepy === false ? (
@@ -45,6 +45,7 @@ function App() {
           ) : (
             <ImageDifferenceGame dataRef={dataRef} />
           )}
+          <DownloadReport />
         </>
       )}
     </div>
