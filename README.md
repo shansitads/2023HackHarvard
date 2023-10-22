@@ -1,3 +1,5 @@
+![alt text](https://github.com/shansitads/2023HackHarvard/blob/main/src/assets/LoginDemo.png)
+
 # Brain Games
 
 Keep your skills sharp in a puzzle challenge and a weekly, at-home checkup for Alzheimer's patients! Our submission for HackHarvard's 2023 competition.
@@ -40,7 +42,7 @@ npm run dev
 
 ## Schema
 
-We simply used a React + Vite frontend framework with a Firebase database.
+We started the project by parallelly creating a React project, a Firebase authentication system and studying the research-based tests for Alzheimer's disease diagnosis. Given the sensitive nature of medical information and the importance of personalized user experience, we chose to integrate a Firebase authentication system. This not only offered a robust, scalable authentication solution but also ensured data privacy and security for the end-users. We coordinated our work through feature-based branching and pull requests on GitHub. 
 
 ## Challenges
 
