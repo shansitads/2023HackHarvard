@@ -8,6 +8,7 @@ import MoodTracker from './pages/MoodTracker'
 import ImageDifferenceGame from './pages/ImageDifferenceGame'
 import ImageIdentificationGame from './pages/ImageIdentificationGame'
 import ReactionTimeGame from './pages/ReactionTimeGame'
+import DownloadReport from './components/DownloadReport'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { data } from './backend/keys'
@@ -35,17 +36,20 @@ function App() {
       {loggedIn===false ? (
         <LoginAndSignup dataRef={dataRef} toggleLogIn={toggleLogIn}/>
       ) : (
-        sleepy === false ? (
-          <SleepingScaleGame dataRef={dataRef} toggleSleepy={toggleSleepy}/>
-        ) : (
-          mood === false ? (
-            <MoodTracker dataRef={dataRef} toggleMood={toggleMood}/>
+        <>
+        <DownloadReport/>
+        {
+          sleepy === false ? (
+            <SleepingScaleGame dataRef={dataRef} toggleSleepy={toggleSleepy}/>
           ) : (
-            <ImageDifferenceGame dataRef = {dataRef}/>
+            mood === false ? (
+              <MoodTracker dataRef={dataRef} toggleMood={toggleMood}/>
+            ) : (
+              <ImageDifferenceGame dataRef = {dataRef}/>
+            )
           )
-        )
-      
-
+          }
+        </>
       )}
     </div>
   );
