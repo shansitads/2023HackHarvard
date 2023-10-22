@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { setDoc } from 'firebase/firestore' ;
 
-function ReactionTimeGame() {
+function ReactionTimeGame({dataRef}) {
   
   // Timer states
   const [startTime, setStartTime] = useState(null);
@@ -54,6 +55,8 @@ function ReactionTimeGame() {
 
   // Handles when the game ends, where the user either clicked too early, or clicked after the image shows to display the reaction time
   const handleStopGame = () => {
+    const resultTime = elapsedTime/1000;
+    setDoc(dataRef.current, { ReactionTime : resultTime }, { merge: true });
     setIsRunning(false);
     setGameOver(true);
   };

@@ -20,7 +20,6 @@ function LoginForm({ toggle, dataRef }) {
   var localDataRef;
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(form.email + " " + form.password);
     
     signInWithEmailAndPassword(firebaseConfig.auth, form.email, form.password).then(async (cred)=> {
       console.log(cred.user.uid + " logged in");
