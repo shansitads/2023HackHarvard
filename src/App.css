@@ -26,7 +26,6 @@
 
 .loginform {
   max-width: 300px; /* Set the maximum width for the login form */
-  
   margin: 0 auto; /* Center the form horizontally */
   padding: 20px;
   background-color: white; /* Set the background color for the form */
@@ -51,7 +50,7 @@
   color: #242d4c;
 }
 .signupform {
-  max-width: 300px; /* Set the maximum width for the login form */
+  width: 300px; /* Set the maximum width for the login form */
   margin: 0 auto; /* Center the form horizontally */
   padding: 50px;
   background-color: white; /* Set the background color for the form */
@@ -90,9 +89,8 @@
 }
 
 /* Styles for MoodTracker */
-.mood-tracker {
+.mood-tracker body {
   display: flex;
-  flex-direction: column; /* Align children elements vertically */
   justify-content: center;
   align-items: center;
   height: 100vh;

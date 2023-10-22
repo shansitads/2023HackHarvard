@@ -82,14 +82,16 @@ function ReactionTimeGame() {
 
       <p>Time: {formatTime(elapsedTime)} seconds</p>
       <button onClick={handleStartGame} disabled={gameOver}>Start</button>
-      <button onClick={handleStopGame}  disabled = {gameOver}>Stop</button>
-      <button onClick={handleReset}>Reset</button>
+      <button onClick={handleStopGame}  disabled = {gameOver}>WHACK</button>
+      <button onClick={handleReset}>Next</button>
 
       <div>
         { displayTooSoon && <p>you clicked too soon</p>}
       </div>
       <div>
+      <div className="mole">
         { showImage && <img src='src/assets/whackamole.jpeg'></img>}
+        </div>
       </div>
     </div>
   );
