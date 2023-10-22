@@ -9,20 +9,31 @@ let imagePairs = Array.from({ length: 5 }, (_, i) => {
 });
 
 function ImageDifferenceGame() {
+    const maxAttempts = 3;
     const [currentPair, setCurrentPair] = useState(null);
     const [shownImage, setShownImage] = useState(null);
     const [gamePhase, setGamePhase] = useState('loading'); // loading -> displayOne -> displayBoth -> result
     const [isCorrect, setIsCorrect] = useState(null);
+    const [attempt, setAttempt] = useState(1);
+    const [score, setScore] = useState(0);
 
     useEffect(() => {
+        if (attempt <= maxAttempts) {
+            loadNewImagePair();
+        } else {
+            console.log(`Final Score: ${score} out of ${attempt}`);
+        }
+    }, [attempt]);
+
+    const loadNewImagePair = () => {
         // phase displayOne: load a pair of similar images and display one of them
         const randomPair = imagePairs[Math.floor(Math.random() * imagePairs.length)];
         const randomImage = randomPair.images[Math.floor(Math.random() * 2)];
 
         setCurrentPair(randomPair);
         setShownImage(randomImage);
-
         setGamePhase('displayOne');
+        setIsCorrect(null);
 
         // phase displayBoth: display both images and ask user to select the correct one
         const timer = setTimeout(() => {
@@ -30,7 +41,10 @@ function ImageDifferenceGame() {
         }, 5000);
 
         return () => clearTimeout(timer);
-    }, []);
+    }
+
+    // Shuffled images
+    const shuffledImages = [...(currentPair?.images || [])].sort(() => Math.random() - 0.5);
 
     const handleImageClick = (selectedImage) => {
         setGamePhase('result');
@@ -41,8 +55,12 @@ function ImageDifferenceGame() {
         }
     };
 
-    // Shuffled images
-    const shuffledImages = [...(currentPair?.images || [])].sort(() => Math.random() - 0.5);
+    const handleNextClick = () => {
+        if (isCorrect) {
+            setScore(score + 1);
+        }
+        setAttempt(attempt + 1);
+    };
 
     return (
         <div className="App">
@@ -68,8 +86,17 @@ function ImageDifferenceGame() {
                 </>
             )}
 
-            {(gamePhase === 'result' && isCorrect === true) && <h2 style={{ color: 'green' }}>Correct!</h2>}
-            {(gamePhase === 'result' && isCorrect === false) && <h2 style={{ color: 'red' }}>Incorrect!</h2>}
+            {gamePhase === 'result' && (
+                <>
+                    {isCorrect ? (
+                        <h2 style={{ color: 'green' }}>Correct!</h2>
+                    ) : (
+                        <h2 style={{ color: 'red' }}>Incorrect!</h2>
+                    )}
+                    {attempt < maxAttempts && <button onClick={handleNextClick}>Next</button>}
+                    {attempt == maxAttempts && <button onClick={handleNextClick}>Done</button>}
+                </>
+            )}
         </div>
     );
 }
