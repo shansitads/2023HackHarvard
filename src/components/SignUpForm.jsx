@@ -6,7 +6,6 @@ import firebaseConfig from "../backend/firebase.jsx";
 function SignUpForm({ toggle, dataRef }) {
   const [form, setForm] = useState({});
   const validPassword = useRef(null); 
-
   // //dummy state to rerender invalid password message
   const [rerender, setRerender] = useState(false);
 
@@ -20,7 +19,6 @@ function SignUpForm({ toggle, dataRef }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     
-    
     if(form.password !== form.confirmPassword || form.password.length < 6) {
       validPassword.current = false;
       setRerender(prev => !prev);
@@ -29,10 +27,26 @@ function SignUpForm({ toggle, dataRef }) {
 
     validPassword.current = true;
     setRerender(prev => !prev);
-    firebaseConfig.createUser(form.email, form.password, form.name, form.careTakerName, form.careTakerEmail);
+
+    const createUserPromise = firebaseConfig.createUser(
+      form.email, 
+      form.password, 
+      form.name,
+      form.careTakerName,
+      form.careTakerEmail
+    );
+
+    await createUserPromise;
+    
+    console.log("please work");
+
     const timestamp = firebaseConfig.getTimestamp();
+
     const localDataRef = doc(firebaseConfig.db, "users", firebaseConfig.auth.currentUser.uid, "data", timestamp);
+    
     dataRef.current = localDataRef;
+    console.log(dataRef.current);
+
     await setDoc(dataRef.current, {
       timestamp: timestamp
     })
