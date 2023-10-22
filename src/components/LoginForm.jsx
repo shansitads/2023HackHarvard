@@ -46,7 +46,7 @@ function LoginForm({ toggle, dataRef }) {
   };
 
   return (
-    <div>
+    <div className = "loginform">
       <form onSubmit={handleSubmit}>
       <input name="email" onChange={updateForm} placeholder="Email" />
       <input
