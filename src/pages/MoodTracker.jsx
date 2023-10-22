@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { setDoc } from 'firebase/firestore' ;
 import "../App.css";
 
 const smileyImages = [
@@ -9,11 +10,13 @@ const smileyImages = [
   "./src/assets/smiley5.png"
 ];
 
-const MoodTracker = () => {
+const MoodTracker = ({dataRef}) => {
   const [selectedSmiley, setSelectedSmiley] = useState(null);
 
   const handleSmileyClick = (smileyValue) => {
     setSelectedSmiley(smileyValue);
+    const calcMood = (smileyValue-1) / 4;
+    setDoc(dataRef.current, { Mood : calcMood }, { merge: true });
   };
   
 

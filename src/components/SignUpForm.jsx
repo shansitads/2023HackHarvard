@@ -90,8 +90,8 @@ function SignUpForm({ toggle, dataRef }) {
           type="email"
         />
         <div className = "grid-container">
-          <button type="submit">Sign Up</button>
           <button onClick={toggle}>Login</button>
+          <button type="submit">Sign Up</button>
         </div>
       </form>
       <div>

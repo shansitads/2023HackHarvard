@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { setDoc } from 'firebase/firestore' 
 
 // Pairs of images stored in assets
 let imagePairs = Array.from({ length: 5 }, (_, i) => {
@@ -8,8 +9,8 @@ let imagePairs = Array.from({ length: 5 }, (_, i) => {
     };
 });
 
-function ImageDifferenceGame() {
-    const maxAttempts = 3;
+function ImageDifferenceGame({ dataRef }) {
+    const maxAttempts = 5;
     const [currentPair, setCurrentPair] = useState(null);
     const [shownImage, setShownImage] = useState(null);
     const [gamePhase, setGamePhase] = useState('loading'); // loading -> displayOne -> displayBoth -> result
@@ -21,7 +22,9 @@ function ImageDifferenceGame() {
         if (attempt <= maxAttempts) {
             loadNewImagePair();
         } else {
-            console.log(`Final Score: ${score} out of ${attempt}`);
+            console.log(`Final Score: ${score} out of ${maxAttempts}`);
+            const calcScore = score / maxAttempts;
+            setDoc(dataRef.current, { ImageDifference : calcScore }, { merge: true });
         }
     }, [attempt]);
 
