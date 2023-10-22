@@ -4,7 +4,7 @@ import '../App.css';
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { doc, setDoc } from 'firebase/firestore';
 
-function LoginForm({ toggle, dataRef }) {
+function LoginForm({ toggle, dataRef, toggleLogIn }) {
   const [form, setForm] = useState({});
   const validLogin = useRef(null);
 
@@ -36,6 +36,7 @@ function LoginForm({ toggle, dataRef }) {
         timestamp: timestamp
       })
 
+      toggleLogIn();
       toggle();
     })
     .catch((err)=> {

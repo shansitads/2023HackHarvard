@@ -10,13 +10,14 @@ const smileyImages = [
   "./src/assets/smiley5.png"
 ];
 
-const MoodTracker = ({dataRef}) => {
+const MoodTracker = ({dataRef, toggleMood}) => {
   const [selectedSmiley, setSelectedSmiley] = useState(null);
 
   const handleSmileyClick = (smileyValue) => {
     setSelectedSmiley(smileyValue);
     const calcMood = (smileyValue-1) / 4;
     setDoc(dataRef.current, { Mood : calcMood }, { merge: true });
+    toggleMood();
   };
   
 

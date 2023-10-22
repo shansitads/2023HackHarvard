@@ -5,7 +5,7 @@ import '../App.css';
 import logoImage from "../assets/logowithtext.png";
 
 
-function LoginAndSignup({ dataRef }) {
+function LoginAndSignup({ dataRef, toggleLogIn }) {
     const [seen, setSeen] = useState(false);
     const [formType, setFormType] = useState("login");
 
@@ -42,9 +42,9 @@ function LoginAndSignup({ dataRef }) {
                 </button>
                 {seen ? (
                     formType === "login" ? (
-                    <LoginForm toggle={togglePop} dataRef={dataRef} />
+                    <LoginForm toggle={togglePop} dataRef={dataRef} toggleLogIn={toggleLogIn}/>
                     ) : (
-                    <SignUpForm toggle={togglePop} dataRef={dataRef}/>
+                    <SignUpForm toggle={togglePop} dataRef={dataRef} toggleLogIn={toggleLogIn}/>
                     )
                 ) : null}
             </div>
