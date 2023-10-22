@@ -30,3 +30,46 @@
 .grid-container {
   display: flex;
 }
+
+/* Styles for MoodTracker */
+.mood-tracker body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: white;
+}
+
+.mood-tracker .container {
+  text-align: center;
+  background-color: white;
+}
+
+.mood-tracker .smiley-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.mood-tracker .custom-font {
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px;
+  color: #ec806c; 
+}
+
+.mood-tracker .smiley {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  font-size: 2rem;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.mood-tracker .smiley.selected {
+  transform: scale(1.2);
+}
