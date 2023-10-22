@@ -41,7 +41,8 @@ function SignUpForm({ toggle, dataRef }) {
   };
 
   return (
-    
+    <div className="signupform">
+
     <div className="popup">
       <form onSubmit={handleSubmit}>
         <input name="name" onChange={updateForm} placeholder="Name" />
@@ -83,7 +84,7 @@ function SignUpForm({ toggle, dataRef }) {
       <div>
         {validPassword.current === false && <h3 className = "validLogin-textBox">Passwords must match and be 6 characters</h3>}
       </div>
-      
+      </div>
     </div>
   );
 }
