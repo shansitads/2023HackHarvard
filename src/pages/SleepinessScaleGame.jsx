@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { setDoc } from 'firebase/firestore' ;
 
-function SleepinessScale() {
+function SleepinessScale({dataRef}) {
   const [selectedScale, setSelectedScale] = useState(null);
 
   const handleButtonClick = (scale) => {
     setSelectedScale(scale);
+    const sleepiness = (scale-1) / 4;
+    setDoc(dataRef.current, { Sleepiness : sleepiness }, { merge: true });
   };
 
   return (
