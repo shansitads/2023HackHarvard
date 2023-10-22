@@ -1,10 +1,14 @@
 # Brain Games
 
-Our submission for HackHarvard's 2023 competition.
+Keep your skills sharp in a puzzle challenge and a weekly, at-home checkup for Alzheimer's patients! Our submission for HackHarvard's 2023 competition.
+
+## Introduction
+
+Currently, many neurologist referrals for suspected Alzheimer's disease (AD) are made by primary care physicians (PCPs) based on inconsistent, qualitative observations of AD warning signs in patients by their loved ones. “Grandma Jill forgets where she places her keys a lot,” or “Grandpa Joe just isn’t good with names these days,” are just two examples of such observations. But these qualitative observations are hard to quantify and difficult for physicians to assess the urgency and progression of. The main existing technological solutions to track and manage AD progression are diary apps such as Dementia Diary. But no one wants to admit they have signs of memory deterioration, let alone write these signs down when they do occur. That’s why we took inspiration from the concept of EndeavorRx, a video game based attention treatment for patients with ADHD— neurocognitive disease management can be fun, and it shouldn’t feel like a chore and most certainly shouldn’t make you feel guilt, shame, or frustration with yourself. 
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+Meet BrainGames, an elderly-user friendly web app that serves as a fun source of daily mind games (think: a replacement for Wordle or your daily NYT crossword) that helps keep the aging mind sharp as well as a precise tool that helps PCPs quantify neurocognitive changes in individuals suspected of having early onset AD by generating meaningful neurocognitive performance measurements. Users start logging in with Google and entering the information of a primary caretaker, if they have one. Then, they answer daily questions that measure two important indicators of neurocognitive changes: mood and tiredness. Finally, users are directed to the daily challenge, a fun game that is directly based on an FDA approved digital cognitive testing tool commonly used in AD diagnoses: the ANAM test. Our various daily challenges each correspond to an equivalent ANAM diagnostic measurement, and, before the user’s next visit, patients can download a pdf of their game play results over time in graphical form to hand to their PCP, who will use the results as a supplement to their decision making and assessment of a patient’s cognitive performance over time. 
 
 ## Getting Started
 
@@ -15,23 +19,49 @@ An in-depth paragraph about your project and overview of use.
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+* Clone the repository
+
+```
+git clone https://github.com/shansitads/2023HackHarvard.git
+```
+* Install necessary packages
+
+```
+npm install 
+```
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+* Run demo
+
 ```
-code blocks for commands
+npm run dev
 ```
+
+## Schema
+
+We simply used a React + Vite frontend framework with a Firebase database.
+
+## Challenges
+
+As this was our team’s first time building such a complex web application in such a short amount of time, we were faced with the challenge of managing our git history, structuring our React file directory, and integrating our firebase databases into our project. As all of our members had different levels of experience and different skillsets and this was a first hackathon for three of our team members, we had to delegate our tasks efficiently in accordance with everyone’s different skills and strengths.
+
+## Thoughts
+
+We are proud of making a functioning Firebase database with the the variety of games that we built to gather the data to generate the graphs meant to benefit our users. Our schema is simple and clean and easily mountable to a web-hosting service and the games that we developed very closely mirror the ANAM equivalents they were modeled after.
+
+We learned a lot about effective collaboration and product management, not only for ideation but for delegation and efficiency in order to create a product that is user experience and solution focused. We also learned a great deal about React.js, using Git, and how to integrate APIs into our work. In addition to all the technical coding skills we learned, we gained a greater understanding of how Alzheimer’s disease progression is measured, as well as what struggles elderly users might face in accessing web tools.  
+
+## Next Steps
+
+For future iterations of this project, we hope to include more games such as a logical Grand Prix inspired by the type racer games we used to play as a child that is based on the MTH (mathematical processing) metric of the ANAM tests. Additionally, we hope to develop some sort of system to evaluate the effectiveness of our product and advise our improvements. For example, we hope to include user satisfaction surveys throughout our program that measure how much users liked each game or if the game was too confusing to follow, because user experience and accessibility to elderly users is a big focus of this project. Furthermore,  we hope to collaborate with physicians and use electronic health records (EHR) databases to determine how many times BrainGames was mentioned in doctor’s visits notes as a supplement that aided a PCP in referring a patient to a neurologist or helped inform an Alzheimer’s diagnoses. 
 
 ## Help
 
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
+As we had only 48 hours to build this demo, the styling and UI/UX design of the application could be improved upon. We look to build a user interface that is beneficial to Alzheimer's patients so that they can better utilize our products. Our UI/UX design will better reflect this in future iterations.
+
+The game logic in our game files is sound, but if there are any bugs, please let us know at our contacts below.
+
 
 ## Authors
 
@@ -49,17 +79,13 @@ Sana Sharma
 Megan Wang
 [@meganzwang](meganzwang)
 
-## Version History
 
-* 0.2
-    * Various bug fixes and optimizations
-    * See [commit change]() or See [release history]()
-* 0.1
-    * Initial Release
+
 
 ## License
 
 This project is licensed under the MIT License.
+
 
 ## Acknowledgments
 
