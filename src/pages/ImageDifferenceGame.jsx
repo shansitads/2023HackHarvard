@@ -66,41 +66,52 @@ function ImageDifferenceGame({ dataRef }) {
     };
 
     return (
-        <div className="App">
-            {gamePhase === 'displayOne' && (
-                <>
-                    <h1>Remember this image</h1>
-                    <img src={`${currentPair.pair}/${shownImage}`} alt="Game image"/>
-                </>
-            )}
+      <div className="App">
+        {gamePhase === "displayOne" && (
+          <>
+            <h1>Remember this image</h1>
+            <div>
+            <img
+              src={`${currentPair.pair}/${shownImage}`}
+              alt="Game image"
+              height={300}
+              />
+              </div>
+          </>
+        )}
 
-            {(gamePhase === 'displayBoth' || gamePhase === 'result') && (
-                <>
-                    <h1>Select the image you've just seen</h1>
-                    {shuffledImages.map((img, idx) => (
-                        <img
-                            key={idx}
-                            src={`${currentPair.pair}/${img}`}
-                            alt="Game image"
-                            onClick={() => handleImageClick(img)}
-                            style={{ cursor: 'pointer' }}
-                        />
-                    ))}
-                </>
-            )}
+        {(gamePhase === "displayBoth" || gamePhase === "result") && (
+          <>
+            <h1>Select the image you've just seen</h1>
+            {shuffledImages.map((img, idx) => (
+              <img
+                key={idx}
+                src={`${currentPair.pair}/${img}`}
+                alt="Game image"
+                onClick={() => handleImageClick(img)}
+                style={{ cursor: "pointer" }}
+                height={300}
+              />
+            ))}
+          </>
+        )}
 
-            {gamePhase === 'result' && (
-                <>
-                    {isCorrect ? (
-                        <h2 style={{ color: 'green' }}>Correct!</h2>
-                    ) : (
-                        <h2 style={{ color: 'red' }}>Incorrect!</h2>
-                    )}
-                    {attempt < maxAttempts && <button onClick={handleNextClick}>Next</button>}
-                    {attempt == maxAttempts && <button onClick={handleNextClick}>Done</button>}
-                </>
+        {gamePhase === "result" && (
+          <>
+            {isCorrect ? (
+              <h2 style={{ color: "green" }}>Correct!</h2>
+            ) : (
+              <h2 style={{ color: "red" }}>Incorrect!</h2>
             )}
-        </div>
+            {attempt < maxAttempts && (
+              <button onClick={handleNextClick}>Next</button>
+            )}
+            {attempt == maxAttempts && (
+              <button onClick={handleNextClick}>Done</button>
+            )}
+          </>
+        )}
+      </div>
     );
 }
 
