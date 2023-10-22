@@ -89,5 +89,7 @@ This project is licensed under the MIT License.
 
 ## Acknowledgments
 
-Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
+Some of our research for our project.
+* [Medical Tests for Diagnosing Alzheimer's](https://www.alz.org/alzheimers-dementia/diagnosis/medical_tests#:~:text=health%20care%20professional.-,Cognitive%2C%20functional%20and%20behavorial%20tests,more%20time%20intensive%20and%20complex.m)
+* [SHORT TERM MEMORY LOSS: SIGN OF ALZHEIMER’S OR DEMENTIA?](https://thekensingtonredondobeach.com/short-term-memory-loss-sign-of-alzheimers-or-dementia/#:~:text=In%20its%20early%20stages%2C%20Alzheimer%27s,term%20memory%20loss%2C%20or%20amnesia)
+* [Digit Symbol Substitution Test](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6291255/#:~:text=The%20DSST%20is%20a%20paper,below%20a%20row%20of%20numbers)
