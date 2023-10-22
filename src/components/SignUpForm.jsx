@@ -15,23 +15,21 @@ function SignUpForm({ toggle }) {
       ...form,
       [event.target.name]: event.target.value,
     });
-    console.log(form);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     
     
-    if(form.password !== form.confirmPassword) {
+    if(form.password !== form.confirmPassword || form.password.length < 6) {
       validPassword.current = false;
       setRerender(prev => !prev);
-      console.log(validPassword);
       return;
     }
 
     validPassword.current = true;
     setRerender(prev => !prev);
-    firebaseConfig.createUser(form.email, form.password, form.careTakerName, form.careTakerEmail);
+    firebaseConfig.createUser(form.email, form.password, form.name, form.careTakerName, form.careTakerEmail);
     console.log(form);
 
     toggle();
@@ -78,7 +76,7 @@ function SignUpForm({ toggle }) {
         </div>
       </form>
       <div>
-        {validPassword.current === false && <h3 className = "validLogin-textBox">Passwords don't match</h3>}
+        {validPassword.current === false && <h3 className = "validLogin-textBox">Passwords must match and be 6 characters</h3>}
       </div>
       
     </div>
