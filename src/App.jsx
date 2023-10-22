@@ -5,7 +5,7 @@ import './App.css'
 import LoginAndSignup from './pages/LoginAndSignup'
 import SleepingScaleGame from './pages/SleepinessScaleGame'
 import MoodTracker from './pages/MoodTracker'
-import ImageDifferenceFame from './pages/ImageDifferenceGame'
+import ImageDifferenceGame from './pages/ImageDifferenceGame'
 import ImageIdentificationGame from './pages/ImageIdentificationGame'
 import ReactionTimeGame from './pages/ReactionTimeGame'
 
@@ -21,7 +21,7 @@ function App() {
           <Route path="moodtracker" element={<MoodTracker />} />
           <Route path="sleepingScale" element={<SleepingScaleGame />} />
           <Route path="whackamole" element={<ReactionTimeGame />} />
-          <Route path="imageDifference" element={<ImageDifferenceFame />} />
+          <Route path="imageDifference" element={<ImageDifferenceGame />} />
           <Route path="newImageIdentify" element={<ImageIdentificationGame />} />
         </Route>
       </Routes>
