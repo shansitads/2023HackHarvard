@@ -3,7 +3,6 @@ import firebaseConfig from "../backend/firebase.jsx";
 import '../App.css';
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { doc, setDoc } from 'firebase/firestore';
-import firebase from "../backend/firebase.jsx";
 
 function LoginForm({ toggle, dataRef }) {
   const [form, setForm] = useState({});
