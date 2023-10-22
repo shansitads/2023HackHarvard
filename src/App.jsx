@@ -33,22 +33,18 @@ function App() {
 
   return (
     <div>
-      {loggedIn===false ? (
-        <LoginAndSignup dataRef={dataRef} toggleLogIn={toggleLogIn}/>
+      {loggedIn === false ? (
+        <LoginAndSignup dataRef={dataRef} toggleLogIn={toggleLogIn} />
       ) : (
         <>
-        <DownloadReport/>
-        {
-          sleepy === false ? (
-            <SleepingScaleGame dataRef={dataRef} toggleSleepy={toggleSleepy}/>
+          <DownloadReport />
+          {mood === false ? (
+            <MoodTracker dataRef={dataRef} toggleMood={toggleMood} />
+          ) : sleepy === false ? (
+            <SleepingScaleGame dataRef={dataRef} toggleSleepy={toggleSleepy} />
           ) : (
-            mood === false ? (
-              <MoodTracker dataRef={dataRef} toggleMood={toggleMood}/>
-            ) : (
-              <ImageDifferenceGame dataRef = {dataRef}/>
-            )
-          )
-          }
+            <ImageDifferenceGame dataRef={dataRef} />
+          )}
         </>
       )}
     </div>
