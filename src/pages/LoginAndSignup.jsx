@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import LoginForm from '../components/LoginForm';
 import SignUpForm from '../components/SignUpForm';
 
-function LoginAndSignup({ dataRef }) {
+function LoginAndSignup({ dataRef, toggleLogIn }) {
     const [seen, setSeen] = useState(false);
     const [formType, setFormType] = useState("login");
 
@@ -34,9 +34,9 @@ function LoginAndSignup({ dataRef }) {
             </button>
             {seen ? (
                 formType === "login" ? (
-                <LoginForm toggle={togglePop} dataRef={dataRef} />
+                <LoginForm toggle={togglePop} dataRef={dataRef} toggleLogIn={toggleLogIn}/>
                 ) : (
-                <SignUpForm toggle={togglePop} dataRef={dataRef}/>
+                <SignUpForm toggle={togglePop} dataRef={dataRef} toggleLogIn={toggleLogIn}/>
                 )
             ) : null}
         </div>

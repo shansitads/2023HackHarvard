@@ -5,27 +5,49 @@ import './App.css'
 import LoginAndSignup from './pages/LoginAndSignup'
 import SleepingScaleGame from './pages/SleepinessScaleGame'
 import MoodTracker from './pages/MoodTracker'
-import ImageDifferenceFame from './pages/ImageDifferenceGame'
+import ImageDifferenceGame from './pages/ImageDifferenceGame'
 import ImageIdentificationGame from './pages/ImageIdentificationGame'
 import ReactionTimeGame from './pages/ReactionTimeGame'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { data } from './backend/keys'
 
 function App() {
   const dataRef = useRef(null)
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [sleepy, setSleepy] = useState(false);
+  const [mood, setMood] = useState(false);
+
+  const toggleLogIn = () => {
+    setLoggedIn(!loggedIn);
+  }
+
+  const toggleSleepy = () => {
+    setSleepy(!sleepy);
+  }
+
+  const toggleMood = () => {
+    setMood(!mood);
+  }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LoginAndSignup dataRef={dataRef} />}>
-          <Route path="moodtracker" element={<MoodTracker />} />
-          <Route path="sleepingScale" element={<SleepingScaleGame />} />
-          <Route path="whackamole" element={<ReactionTimeGame />} />
-          <Route path="imageDifference" element={<ImageDifferenceFame />} />
-          <Route path="newImageIdentify" element={<ImageIdentificationGame />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <div>
+      {loggedIn===false ? (
+        <LoginAndSignup dataRef={dataRef} toggleLogIn={toggleLogIn}/>
+      ) : (
+        sleepy === false ? (
+          <SleepingScaleGame dataRef={dataRef} toggleSleepy={toggleSleepy}/>
+        ) : (
+          mood === false ? (
+            <MoodTracker dataRef={dataRef} toggleMood={toggleMood}/>
+          ) : (
+            <ImageDifferenceGame dataRef = {dataRef}/>
+          )
+        )
+      
+
+      )}
+    </div>
   );
 }
 
