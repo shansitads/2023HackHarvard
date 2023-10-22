@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 
 function ImageIdentificationGame() {
-    const maxAttempts = 3;
+    const maxAttempts = 5;
     const uniqueImages = useRef([]);
     const originalImages = useRef([]);
     const displayedImages = useRef([]);
@@ -42,7 +42,7 @@ function ImageIdentificationGame() {
 
         const timer = setTimeout(async () => {
             selectImage();
-        }, 5000);
+        }, 10000);
 
         return () => clearTimeout(timer);
     };
