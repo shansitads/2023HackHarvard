@@ -1,11 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import firebaseConfig from "../backend/firebase.jsx";
 import '../App.css';
 import { signInWithEmailAndPassword } from "@firebase/auth";
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 import firebase from "../backend/firebase.jsx";
 
-function LoginForm({ toggle, dataRef, setDataRef }) {
+function LoginForm({ toggle, dataRef }) {
   const [form, setForm] = useState({});
   const validLogin = useRef(null);
 
@@ -30,33 +30,13 @@ function LoginForm({ toggle, dataRef, setDataRef }) {
 
       const timestamp = firebaseConfig.getTimestamp();
 
-      //establishing a doc ref on new user sign in
-
       //make this as a function in app jsx, call it
       localDataRef = doc(firebaseConfig.db, "users", cred.user.uid, "data", timestamp);
-      setDataRef(localDataRef);
+      dataRef.current = localDataRef;
 
-      await setDoc(localDataRef, {
+      await setDoc(dataRef.current, {
         timestamp: timestamp
-      });
-
-      
-
-      
-
-      try {
-        
-        const docSnapshot = await getDoc(localDataRef);
-        console.log(docSnapshot.data().timestamp)
-      } catch (err) {
-        console.log("no getDoc");
-      }
-
-      // await setDoc(dataRef, {
-      //   timestamp: timestamp
-      // })
-      // const docsnapshot2 = await getDoc(dataRef);
-      // console.log(docsnapshot2.data().timestamp + " omg omg");
+      })
 
       toggle();
     })

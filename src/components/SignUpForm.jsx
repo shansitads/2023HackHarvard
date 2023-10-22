@@ -1,9 +1,9 @@
 import React, { useState, useRef } from "react";
 import '../App.css'
-
+import { doc, setDoc } from 'firebase/firestore';
 import firebaseConfig from "../backend/firebase.jsx";
 
-function SignUpForm({ toggle }) {
+function SignUpForm({ toggle, dataRef }) {
   const [form, setForm] = useState({});
   const validPassword = useRef(null); 
 
@@ -30,7 +30,12 @@ function SignUpForm({ toggle }) {
     validPassword.current = true;
     setRerender(prev => !prev);
     firebaseConfig.createUser(form.email, form.password, form.name, form.careTakerName, form.careTakerEmail);
-    console.log(form);
+    const timestamp = firebaseConfig.getTimestamp();
+    const localDataRef = doc(firebaseConfig.db, "users", firebaseConfig.auth.currentUser.uid, "data", timestamp);
+    dataRef.current = localDataRef;
+    await setDoc(dataRef.current, {
+      timestamp: timestamp
+    })
 
     toggle();
   };
