@@ -1,15 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from 'firebase/auth';
 import {
     getFirestore, setDoc, doc
 } from 'firebase/firestore';
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  GoogleAuthProvider,
   signOut,
-  signInWithEmailAndPassword,
-  onAuthStateChanged
 } from 'firebase/auth'
 
 import {data} from "./keys.jsx"
@@ -27,25 +23,36 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
+var signInTimestamp;
 
-function createUser(email, password, careTakerName, careTakerEmail) {
-  createUserWithEmailAndPassword(auth, email, password).then((cred)=> {
+function getTimestamp() {
+  var currentDate = new Date();
+
+  var year = currentDate.getFullYear();
+  var month = (currentDate.getMonth() + 1).toString().padStart(2, '0'); // Adding 1 to the month since it's zero-based, and padStart ensures a 2-digit month
+  var day = currentDate.getDate().toString().padStart(2, '0');
+  var hours = currentDate.getHours().toString().padStart(2, '0');
+  var minutes = currentDate.getMinutes().toString().padStart(2, '0');
+  var seconds = currentDate.getSeconds().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+function createUser(email, password, name, careTakerName, careTakerEmail) {
+  createUserWithEmailAndPassword(auth, email, password).then(async (cred)=> {
     setDoc(doc(db, 'users', cred.user.uid), {
+      name: name,
       careTakerName: careTakerName,
-      careTakerEmail: careTakerEmail
-    })
+      careTakerEmail: careTakerEmail,
+    });
+
+    //creating and formatting a timestamp
+    signInTimestamp = getTimestamp();
+
+    console.log('successfully created user: ' + email)
   });
 }
 
-function login(email, password) {
-  signInWithEmailAndPassword(auth, email, password).then((cred)=> {
-    //reset the text fields here.
-  })
-  .catch((err)=> {
-    //Need to add frontend information to notify user login fail
-    console.log("login failed");
-  })
-}
 
 function logout() {
   signOut(auth).then(()=> {
@@ -56,4 +63,4 @@ function logout() {
   })
 }
 
-export default {app, db, createUser, login, logout};
+export default {auth, app, db, createUser, logout, getTimestamp, signInTimestamp };

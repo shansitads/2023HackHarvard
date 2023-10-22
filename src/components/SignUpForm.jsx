@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import '../App.css'
+import { doc, setDoc } from 'firebase/firestore';
+import firebaseConfig from "../backend/firebase.jsx";
 
-function SignUpForm({ toggle }) {
+function SignUpForm({ toggle, dataRef }) {
   const [form, setForm] = useState({});
+  const validPassword = useRef(null); 
+
+  // //dummy state to rerender invalid password message
+  const [rerender, setRerender] = useState(false);
 
   const updateForm = (event) => {
     setForm({
@@ -12,16 +19,32 @@ function SignUpForm({ toggle }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(form);
+    
+    
+    if(form.password !== form.confirmPassword || form.password.length < 6) {
+      validPassword.current = false;
+      setRerender(prev => !prev);
+      return;
+    }
+
+    validPassword.current = true;
+    setRerender(prev => !prev);
+    firebaseConfig.createUser(form.email, form.password, form.name, form.careTakerName, form.careTakerEmail);
+    const timestamp = firebaseConfig.getTimestamp();
+    const localDataRef = doc(firebaseConfig.db, "users", firebaseConfig.auth.currentUser.uid, "data", timestamp);
+    dataRef.current = localDataRef;
+    await setDoc(dataRef.current, {
+      timestamp: timestamp
+    })
+
     toggle();
   };
 
-  // addEventListener(() =)
-
   return (
+    
     <div className="popup">
       <form onSubmit={handleSubmit}>
-        <input name="username" onChange={updateForm} placeholder="Username" />
+        <input name="name" onChange={updateForm} placeholder="Name" />
         <input
           name="email"
           onChange={updateForm}
@@ -41,19 +64,26 @@ function SignUpForm({ toggle }) {
           type="password"
         />
         <input
-          name="Caretaker Name"
+          name="careTakerName"
           onChange={updateForm}
           placeholder="Caretaker Name"
           type="text"
         />
         <input
-          name="Caretaker email"
+          name="careTakerEmail"
           onChange={updateForm}
           placeholder="Caretaker Email"
           type="email"
         />
-        <button type="submit">Sign Up</button>
+        <div className = "grid-container">
+          <button type="submit">Sign Up</button>
+          <button onClick={toggle}>Login</button>
+        </div>
       </form>
+      <div>
+        {validPassword.current === false && <h3 className = "validLogin-textBox">Passwords must match and be 6 characters</h3>}
+      </div>
+      
     </div>
   );
 }

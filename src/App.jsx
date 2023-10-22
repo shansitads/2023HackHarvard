@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -7,12 +7,12 @@ import SleepingScaleGame from './pages/SleepinessScaleGame.jsx'
 
 import { BrowserRouter } from 'react-router-dom';
 
-
 function App() {
+  const dataRef = useRef(null)
 
-  return (
+  return (  
     <BrowserRouter>
-      <LoginAndSignup />
+      <LoginAndSignup dataRef={dataRef} />
     </BrowserRouter>
   );
 }
