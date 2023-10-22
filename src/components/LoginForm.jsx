@@ -2,8 +2,10 @@ import React, { useState, useRef } from "react";
 import firebaseConfig from "../backend/firebase.jsx";
 import '../App.css';
 import { signInWithEmailAndPassword } from "@firebase/auth";
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import firebase from "../backend/firebase.jsx";
 
-function LoginForm({ toggle }) {
+function LoginForm({ toggle, dataRef, setDataRef }) {
   const [form, setForm] = useState({});
   const validLogin = useRef(null);
 
@@ -14,17 +16,48 @@ function LoginForm({ toggle }) {
       ...form,
       [event.target.name]: event.target.value,
     })
-    console.log(form);
   };
 
+  var localDataRef;
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(form.email + " " + form.password);
     
-    signInWithEmailAndPassword(firebaseConfig.auth, form.email, form.password).then((cred)=> {
-      console.log(cred.user + " logged in");
+    signInWithEmailAndPassword(firebaseConfig.auth, form.email, form.password).then(async (cred)=> {
+      console.log(cred.user.uid + " logged in");
       validLogin.current = true;
       setRerender(prev => !prev);
+
+      const timestamp = firebaseConfig.getTimestamp();
+
+      //establishing a doc ref on new user sign in
+
+      //make this as a function in app jsx, call it
+      localDataRef = doc(firebaseConfig.db, "users", cred.user.uid, "data", timestamp);
+      setDataRef(localDataRef);
+
+      await setDoc(localDataRef, {
+        timestamp: timestamp
+      });
+
+      
+
+      
+
+      try {
+        
+        const docSnapshot = await getDoc(localDataRef);
+        console.log(docSnapshot.data().timestamp)
+      } catch (err) {
+        console.log("no getDoc");
+      }
+
+      // await setDoc(dataRef, {
+      //   timestamp: timestamp
+      // })
+      // const docsnapshot2 = await getDoc(dataRef);
+      // console.log(docsnapshot2.data().timestamp + " omg omg");
+
       toggle();
     })
     .catch((err)=> {
