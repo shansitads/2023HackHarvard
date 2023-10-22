@@ -25,7 +25,6 @@ function ImageDifferenceGame({ dataRef }) {
             console.log(`Final Score: ${score} out of ${maxAttempts}`);
             const calcScore = score / maxAttempts;
             setDoc(dataRef.current, { ImageDifference : calcScore }, { merge: true });
-            console.log("success");
         }
     }, [attempt]);
 
