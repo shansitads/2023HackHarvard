@@ -23,7 +23,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
-var signInTimestamp;
 
 function getTimestamp() {
   var currentDate = new Date();
@@ -39,15 +38,12 @@ function getTimestamp() {
 }
 
 function createUser(email, password, name, careTakerName, careTakerEmail) {
-  createUserWithEmailAndPassword(auth, email, password).then(async (cred)=> {
+  return createUserWithEmailAndPassword(auth, email, password).then((cred)=> {
     setDoc(doc(db, 'users', cred.user.uid), {
       name: name,
       careTakerName: careTakerName,
       careTakerEmail: careTakerEmail,
     });
-
-    //creating and formatting a timestamp
-    signInTimestamp = getTimestamp();
 
     console.log('successfully created user: ' + email)
   });
@@ -63,4 +59,4 @@ function logout() {
   })
 }
 
-export default {auth, app, db, createUser, logout, getTimestamp, signInTimestamp };
+export default {auth, app, db, createUser, logout, getTimestamp };
