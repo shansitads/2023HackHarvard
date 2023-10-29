@@ -8,7 +8,7 @@ import {
   signOut,
 } from 'firebase/auth'
 
-import {data} from "./keys.jsx"
+import data from "./data.json"
 
 const firebaseConfig = {
   apiKey: data.API_KEY,

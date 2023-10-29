@@ -11,7 +11,7 @@ import ReactionTimeGame from './pages/ReactionTimeGame'
 import DownloadReport from './components/DownloadReport'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { data } from './backend/keys'
+// import { data } from './backend/keys'
 
 function App() {
   const dataRef = useRef(null)
